@@ -1,11 +1,8 @@
 package org.devops.filter;
 
-import org.devops.util.DateUtil;
-import org.devops.util.LogUtil;
-import org.devops.util.NetworkUtil;
-import org.devops.util.SystemProperties;
-import org.nutz.log.Log;
-import org.nutz.log.Logs;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Properties;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -15,16 +12,17 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Properties;
+
+import org.devops.util.DateUtil;
+import org.devops.util.LogUtil;
+import org.devops.util.NetworkUtil;
+import org.devops.util.SystemProperties;
 
 @WebFilter(filterName = "MainFilter", urlPatterns = "/*")
 public class MainFilter implements Filter {
 
     private static Properties systemProperties = SystemProperties.getSystemProperties();
-    private static Log log = Logs.get();
-
+    
     public void destroy() {
     }
 

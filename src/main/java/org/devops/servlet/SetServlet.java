@@ -19,7 +19,9 @@ import java.util.Map;
 @WebServlet(urlPatterns = "/settings")
 public class SetServlet extends HttpServlet {
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private static final long serialVersionUID = 1L;
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         response.setContentType("application/json; charset=UTF-8");
         PrintWriter writer = response.getWriter();

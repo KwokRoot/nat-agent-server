@@ -2,6 +2,7 @@ package org.devops.filter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Optional;
 import java.util.Properties;
 
 import javax.servlet.Filter;
@@ -17,18 +18,21 @@ import org.devops.util.DateUtil;
 import org.devops.util.LogUtil;
 import org.devops.util.NetworkUtil;
 import org.devops.util.SystemProperties;
+import org.nutz.log.Log;
+import org.nutz.log.Logs;
 
 @WebFilter(filterName = "MainFilter", urlPatterns = "/*")
 public class MainFilter implements Filter {
 
     private static Properties systemProperties = SystemProperties.getSystemProperties();
-    
+    private static Log log = Logs.get();
+
     public void destroy() {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) req;
-        String path = httpServletRequest.getRequestURI();
+        String path = httpServletRequest.getRequestURI() + "?" + Optional.ofNullable(httpServletRequest.getQueryString()).orElse("");
         String method = httpServletRequest.getMethod();
         System.out.println(path);
         resp.setContentType("text/html; charset=UTF-8");

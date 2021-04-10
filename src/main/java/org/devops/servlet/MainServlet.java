@@ -14,6 +14,7 @@ import org.nutz.http.Header;
 import org.nutz.http.Http;
 import org.nutz.http.Response;
 import org.nutz.lang.Streams;
+import org.nutz.lang.Strings;
 
 @WebServlet(urlPatterns = "/*")
 public class MainServlet extends HttpServlet {
@@ -25,10 +26,10 @@ public class MainServlet extends HttpServlet {
         resp.setContentType("text/plain; charset=UTF-8");
         PrintWriter writer = resp.getWriter();
         String uri = req.getRequestURI();
-        String urlParam = req.getQueryString();
+        String urlParam = Strings.isBlank(req.getQueryString()) ? "" : "?" + req.getQueryString();
 
         String postBody = new String(Streams.readBytes(req.getInputStream()));
-        Response Response = Http.post3("http://" + NativeCache.agentHost + uri + "?" + urlParam, postBody, Header.create().asJsonContentType(), 600000, 5000);
+        Response Response = Http.post3("http://" + NativeCache.agentHost + uri + urlParam, postBody, Header.create().asJsonContentType(), 600000, 5000);
         resp.setContentType(Response.getHeader().get("Content-Type", "application/json; charset=UTF-8"));
         writer.write(Response.getContent());
 
@@ -38,9 +39,9 @@ public class MainServlet extends HttpServlet {
         resp.setContentType("text/plain; charset=UTF-8");
         PrintWriter writer = resp.getWriter();
         String uri = req.getRequestURI();
-        String urlParam = req.getQueryString();
+        String urlParam = Strings.isBlank(req.getQueryString()) ? "" : "?" + req.getQueryString();
 
-        Response Response = Http.get("http://" + NativeCache.agentHost + uri + "?" + urlParam, 600000, 5000);
+        Response Response = Http.get("http://" + NativeCache.agentHost + uri + urlParam, 600000, 5000);
         resp.setContentType(Response.getHeader().get("Content-Type", "text/plain; charset=UTF-8"));
         writer.write(Response.getContent());
 
